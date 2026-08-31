@@ -1,0 +1,40 @@
+name: System
+description: 'Endpoints related to application health and monitoring'
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/healthcheck
+    metadata:
+      custom: []
+      groupName: System
+      groupDescription: 'Endpoints related to application health and monitoring'
+      subgroup: ''
+      subgroupDescription: ''
+      title: Healthcheck
+      description: 'Verify API server operational status.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"ok","timestamp":"2026-08-31T10:45:00Z"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
