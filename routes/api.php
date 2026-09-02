@@ -1,14 +1,19 @@
 <?php
 
+use App\Http\Controllers\HealthCheckController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HealthCheckController;
-use App\Http\Controllers\AccountController;
 
+Route::get('/healthcheck', HealthCheckController::class);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', fn (Request $request) => $request->user());
-    // Route::get('/get_accounts', [AccountController::class, 'index']);
+Route::post('/register', RegisterController::class)->middleware('guest');
+Route::post('/login', LoginController::class)->middleware('guest');
+
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
 });
 
-Route::get('/healthcheck', HealthCheckController::class); // stays public, outside the group
+Route::post('/logout', LogoutController::class)->middleware('auth:sanctum');
