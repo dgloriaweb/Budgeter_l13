@@ -48,6 +48,22 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin:5-apache'
+        depends_on:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_ABSOLUTE_URI: 'http://127.0.0.1:8082/phpmyadmin/'
+            # Use DB_USERNAME/DB_PASSWORD on the login screen
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        ports:
+            - '8082:80'
+        volumes:
+            - './docker/phpmyadmin/apache-subdir.conf:/etc/apache2/conf-enabled/phpmyadmin-subdir.conf:ro'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge

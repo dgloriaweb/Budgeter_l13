@@ -29,7 +29,7 @@ endpoints:
         name: name
         description: 'User name.'
         required: true
-        example: 'Test User'
+        example: '{{name}}'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -40,7 +40,7 @@ endpoints:
         name: email
         description: 'User email address.'
         required: true
-        example: test.user@example.com
+        example: '{{email}}'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -51,7 +51,7 @@ endpoints:
         name: password
         description: Password.
         required: true
-        example: Password123!
+        example: '{{password}}'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -62,17 +62,17 @@ endpoints:
         name: password_confirmation
         description: 'Must match password.'
         required: true
-        example: Password123!
+        example: '{{password}}'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Test User'
-      email: test.user@example.com
-      password: Password123!
-      password_confirmation: Password123!
+      name: '{{name}}'
+      email: '{{email}}'
+      password: '{{password}}'
+      password_confirmation: '{{password}}'
     fileParameters: []
     responses:
       -
@@ -83,6 +83,210 @@ endpoints:
         description: ''
     responseFields: []
     auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      custom: []
+      groupName: Auth
+      groupDescription: 'User registration and authentication.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: Login
+      description: 'Authenticate a user and return an API token.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'User email address.'
+        required: true
+        example: '{{email}}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: Password.
+        required: true
+        example: '{{password}}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: '{{email}}'
+      password: '{{password}}'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"user":{"id":1,"name":"Test User","email":"test.user@example.com"},"token":"1|{token}"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/auth
+    metadata:
+      custom: []
+      groupName: Auth
+      groupDescription: 'User registration and authentication.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: Auth
+      description: 'Authenticate a user and return an API token.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        custom: []
+        name: email
+        description: 'User email address.'
+        required: true
+        example: '{{email}}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: Password.
+        required: true
+        example: '{{password}}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      email: '{{email}}'
+      password: '{{password}}'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"user":{"id":1,"name":"Test User","email":"test.user@example.com"},"token":"1|{token}"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/user
+    metadata:
+      custom: []
+      groupName: Auth
+      groupDescription: 'User registration and authentication.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Current user'
+      description: 'Return the authenticated user.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {{auth_token}}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"id":1,"name":"Test User","email":"test.user@example.com"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/logout
+    metadata:
+      custom: []
+      groupName: Auth
+      groupDescription: 'User registration and authentication.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: Logout
+      description: 'Revoke the current API token.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {{auth_token}}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

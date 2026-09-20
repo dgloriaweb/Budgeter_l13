@@ -1,130 +1,68 @@
-name: Endpoints
-description: ''
+name: Expenses
+description: 'Import and manage expense rows.'
 endpoints:
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/login
+      - GET
+    uri: api/expenses
     metadata:
       custom: []
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: Expenses
+      groupDescription: 'Import and manage expense rows.'
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
+      title: 'List expenses'
+      description: 'List expenses for the authenticated user (paginated).'
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer {{auth_token}}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      email:
+    queryParameters:
+      per_page:
         custom: []
-        name: email
-        description: 'Must be a valid email address.'
-        required: true
-        example: gbailey@example.net
-        type: string
+        name: per_page
+        description: 'Items per page (max 200).'
+        required: false
+        example: 50
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      password:
+    cleanQueryParameters:
+      per_page: 50
+    bodyParameters:
+      per_page:
         custom: []
-        name: password
-        description: ''
-        required: true
-        example: '|]|{+-'
-        type: string
+        name: per_page
+        description: 'Must be at least 1. Must not be greater than 200.'
+        required: false
+        example: 1
+        type: integer
         enumValues: []
         exampleWasSpecified: false
-        nullable: false
+        nullable: true
         deprecated: false
     cleanBodyParameters:
-      email: gbailey@example.net
-      password: '|]|{+-'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/user
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+      per_page: 1
     fileParameters: []
     responses:
       -
         custom: []
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: 'http://localhost:3000'
-          access-control-allow-credentials: 'true'
-        description: null
+        status: 200
+        content: '{"success":true,"data":{"current_page":1,"data":[{"id":1,"user_id":1,"title":"Namesco ltd domain renewal","amount":"-22.99","currency":"GBP","transaction_date":null,"due_date":"2027-04-16"}]}}'
+        headers: []
+        description: ''
     responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/logout
-    metadata:
-      custom: []
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

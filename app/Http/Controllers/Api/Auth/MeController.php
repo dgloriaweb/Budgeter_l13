@@ -12,21 +12,13 @@ use Knuckles\Scribe\Attributes\Response;
 
 #[Group('Auth', 'User registration and authentication.')]
 #[Authenticated]
-class LogoutController extends Controller
+class MeController extends Controller
 {
-    #[Endpoint('Logout', 'Revoke the current API token.')]
-    #[Response(['success' => true], status: 200)]
+    #[Endpoint('Current user', 'Return the authenticated user.')]
+    #[Response(['id' => 1, 'name' => 'Test User', 'email' => 'test.user@example.com'], status: 200)]
     public function __invoke(Request $request): JsonResponse
     {
-        $access_token = $request->user()?->currentAccessToken();
-
-        if ($access_token) {
-            $access_token->delete();
-        }
-
-        return response()->json([
-            'success' => true,
-        ]);
+        return response()->json($request->user());
     }
 }
 

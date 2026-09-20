@@ -105,7 +105,7 @@ return [
     // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
     'auth' => [
         // Set this to true if ANY endpoints in your API use authentication.
-        'enabled' => false,
+        'enabled' => true,
 
         // Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
         // You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
@@ -114,16 +114,16 @@ return [
         // Where is the auth value meant to be sent in a request?
         'in' => AuthIn::BEARER->value,
 
-        // The name of the auth parameter (e.g. token, key, apiKey) or header (e.g. Authorization, Api-Key).
-        'name' => 'key',
+        // For Postman, bearer auth expects the key name to be "token".
+        'name' => 'token',
 
         // The value of the parameter to be used by Scribe to authenticate response calls.
         // This will NOT be included in the generated documentation. If empty, Scribe will use a random value.
         'use_value' => env('SCRIBE_AUTH_KEY'),
 
-        // Placeholder your users will see for the auth parameter in the example requests.
-        // Set this to null if you want Scribe to use a random value as placeholder instead.
-        'placeholder' => '{YOUR_AUTH_KEY}',
+        // Placeholder users will see for the auth value in examples.
+        // This matches our Postman environment variable.
+        'placeholder' => '{{auth_token}}',
 
         // Any extra authentication-related info for your users. Markdown and HTML are supported.
         'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
@@ -146,7 +146,59 @@ return [
         'enabled' => true,
 
         'overrides' => [
-            'variable' => [], // Wipes out the auto-generated baseUrl variable
+            // Ensure protected requests use Bearer {{auth_token}} at collection level.
+            'auth' => [
+                'type' => 'bearer',
+                'bearer' => [
+                    [
+                        'key' => 'token',
+                        'value' => '{{auth_token}}',
+                        'type' => 'string',
+                    ],
+                ],
+            ],
+            // Collection variables + a collection-level test script to capture tokens.
+            'variable' => [
+                [
+                    'id' => 'baseUrl',
+                    'key' => 'baseUrl',
+                    'type' => 'string',
+                    'name' => 'string',
+                    'value' => 'http://localhost:8081',
+                ],
+                [
+                    'id' => 'email',
+                    'key' => 'email',
+                    'type' => 'string',
+                    'name' => 'string',
+                    'value' => '',
+                ],
+                [
+                    'id' => 'password',
+                    'key' => 'password',
+                    'type' => 'string',
+                    'name' => 'string',
+                    'value' => '',
+                ],
+                [
+                    'id' => 'auth_token',
+                    'key' => 'auth_token',
+                    'type' => 'string',
+                    'name' => 'string',
+                    'value' => '',
+                ],
+            ],
+            'event' => [
+                [
+                    'listen' => 'test',
+                    'script' => [
+                        'type' => 'text/javascript',
+                        'exec' => [
+                            'if (pm.response.code === 200 && pm.response.json().token) pm.environment.set("auth_token", pm.response.json().token);',
+                        ],
+                    ],
+                ],
+            ],
         ],
     ],
 

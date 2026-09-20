@@ -7,20 +7,18 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Knuckles\Scribe\Attributes\BodyParam;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\Response;
 
 #[Group('Auth', 'User registration and authentication.')]
-class RegisterController extends Controller
+class AuthController extends Controller
 {
-    #[Endpoint('Register', 'Create a user and return an API token.')]
-    #[BodyParam('name', 'string', 'User name.', required: true, example: '{{name}}')]
+    #[Endpoint('Auth', 'Authenticate a user and return an API token.')]
     #[BodyParam('email', 'string', 'User email address.', required: true, example: '{{email}}')]
     #[BodyParam('password', 'string', 'Password.', required: true, example: '{{password}}')]
-    #[BodyParam('password_confirmation', 'string', 'Must match password.', required: true, example: '{{password}}')]
     #[Response([
         'success' => true,
         'user' => [
@@ -29,20 +27,21 @@ class RegisterController extends Controller
             'email' => 'test.user@example.com',
         ],
         'token' => '1|{token}',
-    ], status: 201)]
+    ], status: 200)]
     public function __invoke(Request $request): JsonResponse
     {
         $validated_data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        $user = User::create([
-            'name' => $validated_data['name'],
-            'email' => $validated_data['email'],
-            'password' => Hash::make($validated_data['password']),
-        ]);
+        $user = User::query()->where('email', $validated_data['email'])->first();
+
+        if (!$user || !Hash::check($validated_data['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
 
         $token = $user->createToken('api')->plainTextToken;
 
@@ -50,7 +49,7 @@ class RegisterController extends Controller
             'success' => true,
             'user' => $user,
             'token' => $token,
-        ], 201);
+        ]);
     }
 }
 
