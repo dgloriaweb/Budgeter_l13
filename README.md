@@ -8,7 +8,7 @@ Laravel API backend for the Budgeter 2026 app.
 ## Associated Frontend
 
 - Repository: `https://github.com/dgloriaweb/budgeter2026_vue3`
-- Live site: `https://budgeter2026.netlify.app/`
+- Live site: `https://budgeterfrontend2026.netlify.app`
 
 ## Current flow (source of truth)
 
