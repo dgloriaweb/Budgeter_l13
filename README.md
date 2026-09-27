@@ -23,34 +23,37 @@ Laravel API backend for the Budgeter 2026 app.
 Start containers:
 
 ```bash
+sail up -d
+```
+
+If you don't have the `sail` alias set up, use:
+
+```bash
 ./vendor/bin/sail up -d
 ```
 
 ### Ports (default)
+
 - API base URL: `http://127.0.0.1:8081`
 - MySQL (host access): `127.0.0.1:3308` (see `FORWARD_DB_PORT` in `.env`)
 - phpMyAdmin: `http://127.0.0.1:8082/phpmyadmin/` (and `http://127.0.0.1:8082/` redirects there)
 
 ### Cache clearing (Laravel)
+
 When routes/config seem “stuck”:
 
 ```bash
-./vendor/bin/sail artisan optimize:clear
-```
-
-### Migrations
-
-```bash
-./vendor/bin/sail artisan migrate
+sail artisan optimize:clear
 ```
 
 ### API docs + Postman collection (Scribe)
 
 ```bash
-./vendor/bin/sail artisan scribe:generate
+sail artisan scribe:generate
 ```
 
 Outputs:
+
 - Postman collection: `storage/app/private/scribe/collection.json`
 - OpenAPI: `storage/app/private/scribe/openapi.yaml`
 
@@ -59,12 +62,14 @@ Docs UI is served by the app at `/docs` (the link printed by Scribe uses `APP_UR
 ## API endpoints
 
 ### Public
+
 - `GET /api/healthcheck`
 - `POST /api/register` → `{ success, user, token }`
 - `POST /api/login` → `{ success, user, token }`
 - `POST /api/auth` → `{ success, user, token }` (alias endpoint for docs/Postman)
 
 ### Protected (Bearer token)
+
 Send header: `Authorization: Bearer <token>`
 
 - `GET /api/user`

@@ -23,7 +23,7 @@ return [
 
     // Comma-separated list of allowed origins (scheme + host + optional port).
     // Example:
-    // CORS_ALLOWED_ORIGINS=http://localhost:5173,https://budgeterfrontend2026.netlify.app
+    // CORS_ALLOWED_ORIGINS=http://localhost:5173,https://budgeter2026.netlify.app
     'allowed_origins' => array_values(array_filter(array_map(
         static fn (string $origin): string => trim($origin),
         explode(',', env('CORS_ALLOWED_ORIGINS', env('FRONTEND_URL', 'http://localhost:5173')))
