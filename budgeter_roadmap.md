@@ -1,6 +1,6 @@
 # Budgeter 2026 - Project Roadmap
 
-## Current Setup (Source of truth)
+## Current Setup 
 - **Backend**: Laravel API running via Sail.
 - **Auth**: Sanctum personal access tokens (Bearer token).
 - **Docs**: Scribe generates HTML docs + Postman collection:
@@ -10,7 +10,7 @@
   - Host access (from your machine): `127.0.0.1:3308` (see `FORWARD_DB_PORT`)
   - phpMyAdmin: `http://127.0.0.1:8082/` (or `http://127.0.0.1:8082/phpmyadmin/` after container recreate)
 
-## Day-to-day dev flow (what we actually do now)
+## Day-to-day dev flow 
 1. **Start containers**: `./vendor/bin/sail up -d`
 2. **Clear Laravel caches (when routes/config change)**: `./vendor/bin/sail artisan optimize:clear`
 3. **Run migrations**: `./vendor/bin/sail artisan migrate`
